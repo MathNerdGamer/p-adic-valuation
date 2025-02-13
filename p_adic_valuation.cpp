@@ -9,7 +9,7 @@
 auto p_adic_valuation( NTL::ZZ, NTL::ZZ const & )    -> NTL::ZZ;
 auto factorial( NTL::ZZ const & )                    -> NTL::ZZ;
 auto legendre( NTL::ZZ const &, NTL::ZZ const & )    -> NTL::ZZ;
-auto factorial_digit_sum( NTL::ZZ, NTL::ZZ const & ) -> NTL::ZZ;
+auto digit_sum( NTL::ZZ, NTL::ZZ const & ) -> NTL::ZZ;
 
 auto main( int argc, char **argv ) -> int
 {
@@ -107,10 +107,10 @@ auto factorial( NTL::ZZ const &n ) -> NTL::ZZ
 auto legendre( NTL::ZZ const &n, NTL::ZZ const &p ) -> NTL::ZZ
 {   // Returns the p-adic valuation of n! using Legendre's formula
     // v(p; n!) = (n - s(p; n))/(p-1)
-    return ( n - factorial_digit_sum( n, p ) ) / ( p - 1 );
+    return ( n - digit_sum( n, p ) ) / ( p - 1 );
 }
 
-auto factorial_digit_sum( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
+auto digit_sum( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
 {   // Returns the sum of the digits of n in base-p. This is s(p; n).
     auto sum{ NTL::ZZ{ 0 } };
 
@@ -134,6 +134,11 @@ auto factorial_digit_sum( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
         {   // Population count = sum of bits = base-2 "digit" sum.
             sum += std::popcount( b );
         }
+        
+        // Note: The above could have been done in a single line:
+        // sum += NTL::weight( n );
+        // However, the idea of this code was to demonstrate the `popcnt` instruction.
+        // Using NTL::weight would just leave a `call` instruction to the NTL library.
     }
 
     return sum;
