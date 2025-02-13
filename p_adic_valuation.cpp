@@ -46,8 +46,13 @@ auto main( int argc, char **argv ) -> int
 }
 
 auto p_adic_valuation( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
-{   // Assuming n != 0 before proceeding; this will be handled in main() before this is called.
+{
     NTL::ZZ valuation{ 0 };
+
+    if( n == 0 )
+    {
+        throw std::invalid_argument( "Must be called with a non-zero integer.\n" );
+    }
 
     if( p != 2 )
     {
