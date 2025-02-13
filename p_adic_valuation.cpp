@@ -62,7 +62,7 @@ auto p_adic_valuation( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
         auto num_bytes{ NTL::NumBytes( n ) };
         std::vector<std::uint8_t> bytes(num_bytes, 0);
 
-        // Returns integer in bytes in Little Endian order.
+        // Returns integer in bytes in order from least significant to most significant byte.
         NTL::BytesFromZZ( bytes.data(), n, num_bytes );
 
         for( auto b : bytes )
@@ -106,7 +106,7 @@ auto legendre( NTL::ZZ const &n, NTL::ZZ const &p ) -> NTL::ZZ
 }
 
 auto factorial_digit_sum( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
-{   // Returns the sum of the digits of n! in base-p. This is s(p; n).
+{   // Returns the sum of the digits of n in base-p. This is s(p; n).
     auto sum{ NTL::ZZ{ 0 } };
 
     if( p != 2 )
@@ -122,7 +122,7 @@ auto factorial_digit_sum( NTL::ZZ n, NTL::ZZ const &p ) -> NTL::ZZ
         auto num_bytes{ NTL::NumBytes( n ) };
         std::vector<std::uint8_t> bytes( num_bytes, 0 );
 
-        // Returns integer in bytes in Little Endian order.
+        // Returns integer in bytes in order from least significant to most significant byte.
         NTL::BytesFromZZ( bytes.data(), n, num_bytes );
 
         for( auto b : bytes )
